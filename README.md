@@ -1,14 +1,9 @@
-# DogFood [![Analytics](https://ga-beacon.appspot.com/UA-79885141-1/welcome-page)](https://github.com/AnSwErYWJ/DogFood)
+# DogFood
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.png?v=103)](https://github.com/ellerbrock/open-source-badge/)
-[![Gitter](https://badges.gitter.im/AnSwErYWJ/DogFood.svg)](https://gitter.im/AnSwErYWJ/DogFood?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
 ## Introduction
-
-
-## Status
-This reportory is considered as my own code base and still active development.  
-I can't make this more perfect without you!
+My linux commands. 
 
 ## List
 + [C](https://github.com/AnSwErYWJ/DogFood/tree/master/C)
