@@ -6,10 +6,9 @@
 My linux commands. 
 
 ## List
-+ [C](https://github.com/AnSwErYWJ/DogFood/tree/master/C)
-+ [Lua](https://github.com/AnSwErYWJ/DogFood/tree/master/Lua)
-+ [make](https://github.com/AnSwErYWJ/DogFood/tree/master/make)
-+ [sh](https://github.com/AnSwErYWJ/DogFood/tree/master/sh)
++ [mycp](https://github.com/AnSwErYWJ/mycp)
++ [myping](https://github.com/AnSwErYWJ/myping)
++ [myls](https://github.com/AnSwErYWJ/myls)
 
 ## About me
 [![forthebadge](http://forthebadge.com/images/badges/ages-20-30.svg)](http://forthebadge.com)
