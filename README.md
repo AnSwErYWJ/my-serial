@@ -10,7 +10,7 @@ My linux commands.
 + [myping](https://github.com/AnSwErYWJ/myping)
 + [myls](https://github.com/AnSwErYWJ/myls)
 + [mywho](https://github.com/AnSwErYWJ/mywho)
-+ [mytouch](https://github.com/AnSwErYWJ/mytouch
++ [mytouch](https://github.com/AnSwErYWJ/mytouch)
 
 ## About me
 [![forthebadge](http://forthebadge.com/images/badges/ages-20-30.svg)](http://forthebadge.com)
