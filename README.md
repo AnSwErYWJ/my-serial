@@ -11,6 +11,7 @@ My linux commands.
 + [myls](https://github.com/AnSwErYWJ/myls)
 + [mywho](https://github.com/AnSwErYWJ/mywho)
 + [mytouch](https://github.com/AnSwErYWJ/mytouch)
++ [myft](https://github.com/AnSwErYWJ/myft) (file type)
 
 ## About me
 [![forthebadge](http://forthebadge.com/images/badges/ages-20-30.svg)](http://forthebadge.com)
