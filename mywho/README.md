@@ -7,6 +7,7 @@ Show who is logged on.
 
 ## Environment
 + Linux Bash Shell 
++ POSIX C
 
 ## Options 
 ```
