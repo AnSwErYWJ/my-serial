@@ -7,6 +7,7 @@ Copy files and directories.
 
 ## Environment
 + Linux Bash Shell 
++ POSIX C
 
 ## Options 
 ```
