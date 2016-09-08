@@ -7,6 +7,7 @@ Send ICMP ECHO_REQUEST to network hosts.
 
 ## Environment
 + Linux Bash Shell
++ POSIX C
 
 ## Compile and Run
 ```
