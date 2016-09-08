@@ -6,12 +6,14 @@
 My linux commands. 
 
 ## List
-+ [mycp](https://github.com/AnSwErYWJ/mycp)
-+ [myping](https://github.com/AnSwErYWJ/myping)
-+ [myls](https://github.com/AnSwErYWJ/myls)
-+ [mywho](https://github.com/AnSwErYWJ/mywho)
-+ [mytouch](https://github.com/AnSwErYWJ/mytouch)
-+ [myft](https://github.com/AnSwErYWJ/myft) (file type)
+| Tables        | description  | 
+| :-------------:|:-------------:| 
+| [mycp](https://github.com/AnSwErYWJ/mycp)      | right-aligned |
+| [myping](https://github.com/AnSwErYWJ/myping)     | centered      |
+| [myls](https://github.com/AnSwErYWJ/myls) | are neat      |
+| [mywho](https://github.com/AnSwErYWJ/mywho) | are neat      |
+| [mytouch](https://github.com/AnSwErYWJ/mytouch) | are neat      |
+| [myft](https://github.com/AnSwErYWJ/myft) (file type) | are neat      |
 
 ## About me
 [![forthebadge](http://forthebadge.com/images/badges/ages-20-30.svg)](http://forthebadge.com)
