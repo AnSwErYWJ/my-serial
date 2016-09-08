@@ -6,14 +6,14 @@
 My linux commands. 
 
 ## List
-| Tables        | description  | 
+| Commands | description  | 
 | :-------------:|:-------------:| 
-| [mycp](https://github.com/AnSwErYWJ/mycp)      | right-aligned |
-| [myping](https://github.com/AnSwErYWJ/myping)     | centered      |
-| [myls](https://github.com/AnSwErYWJ/myls) | are neat      |
-| [mywho](https://github.com/AnSwErYWJ/mywho) | are neat      |
-| [mytouch](https://github.com/AnSwErYWJ/mytouch) | are neat      |
-| [myft](https://github.com/AnSwErYWJ/myft) (file type) | are neat      |
+| [mycp](https://github.com/AnSwErYWJ/my-serial/tree/master/mycp)| copy files and directories |
+| [myping](https://github.com/AnSwErYWJ/my-serial/tree/master/myping)| send ICMP ECHO_REQUEST to network hosts |
+| [myls](https://github.com/AnSwErYWJ/my-serial/tree/master/myls)| list directory contents      |
+| [mywho](https://github.com/AnSwErYWJ/my-serial/tree/master/mywho)| show who is logged on      |
+| [mytouch](https://github.com/AnSwErYWJ/my-serial/tree/master/mytouch) | change file timestamps |
+| [myft](https://github.com/AnSwErYWJ/my-serial/tree/master/myft)|       |
 
 ## About me
 [![forthebadge](http://forthebadge.com/images/badges/ages-20-30.svg)](http://forthebadge.com)
