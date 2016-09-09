@@ -11,12 +11,12 @@ Send ICMP ECHO_REQUEST to network hosts.
 
 ## Compile and Run
 ```
-make
-make clean
+$ make
+$ make clean
 ```
 
 ```
-sudo ./myping destination
+$ sudo ./myping destination
 ```
 
 ## Reference

@@ -18,12 +18,12 @@ Change file timestamps.
 
 ## Compile and Run
 ```
-make
-make clean
+$ make
+$ make clean
 ```
 
 ```
-./mytouch [-acm][-r ref_file(参照文件)|-t time(时间值)] file(文件名)
+$ ./mytouch [-acm][-r ref_file(参照文件)|-t time(时间值)] file(文件名)
 ```
 
 ## Test

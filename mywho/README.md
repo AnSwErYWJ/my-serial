@@ -18,12 +18,12 @@ Show who is logged on.
 
 ## Compile and Run
 ```
-make 
-make clean
+$ make
+$ make clean
 ```
 
 ```
-./mywho -[H|q|b]
+$ ./mywho -[H|q|b]
 ```
 
 ## Reference

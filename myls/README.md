@@ -11,12 +11,12 @@ List directory contents.
 
 ## Compile and Run
 ```
-make
-make clean
+$ make
+$ make clean
 ```
 
 ```
-./myls [dir]
+$ ./myls [dir]
 ```
 
 ## Reference

@@ -3,7 +3,12 @@
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
 ## Introduction
-My linux commands. 
+My linux commands.
+
+## Installation
+```
+$ git clone git@github.com:AnSwErYWJ/my-serial.git
+```
 
 ## List
 | Commands | description  | 

@@ -18,12 +18,12 @@ Copy files and directories.
 
 ## Compile and Run
 ```
-make 
-make clean
+$ make
+$ make clean
 ```
 
 ```
-./mycp -[Rrls] source dest
+$ ./mycp -[Rrls] source dest
 ```
 
 ## Reference
