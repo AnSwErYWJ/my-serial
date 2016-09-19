@@ -5,35 +5,25 @@
 	> Created Time: Mon 19 Sep 2016 10:59:18 AM CST
  ************************************************************************/
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-#include<signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <signal.h>
+#include <sys/utsname.h>
 
-#define MAX 1024 // max length og command
+#include "myshell.h"
 
-static char cwd[MAX]; // current path
-static char *all[MAX]; // commands
+int current_out = 4;
+int current_in = 5;
+int fd[4];
 
-/* signal processing function */
-void sig_handle()
-{}
 
-/* print prompt*/
-void print_prompt()
-{}
-
-/* scan command */
-void scan_command(char *command)
-{}
-
-/* splite commands by ';' ,then save to all */
-void parse_semicolon(char *command)
-{}
 
 /* execute command */
-void execute(char *command)
-{}
+static void execute(char *command)
+{
+        
+}
 
 int main(int argc,char *argv[])
 {
@@ -54,14 +44,14 @@ int main(int argc,char *argv[])
     int iter = 0;
    
     /* save command(s) */
-    char *command = (char *)calloc(MAX+1,1);
+    char *command = (char *)calloc(MAX+1,sizeof(char));
     if (command ==NULL)
     {
         fprintf(stderr,"calloc failed\n");
         exit(EXIT_FAILURE);    
     }
 
-    while (0)
+    //while (1)
     {
         iter = 0;
 
@@ -84,5 +74,6 @@ int main(int argc,char *argv[])
         while (all[iter] != NULL)
             execute(all[iter++]);
     }
+    
     return 0;
 }
