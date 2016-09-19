@@ -18,7 +18,8 @@ $ git clone git@github.com:AnSwErYWJ/my-serial.git
 | [myls](https://github.com/AnSwErYWJ/my-serial/tree/master/myls)| list directory contents      |
 | [mywho](https://github.com/AnSwErYWJ/my-serial/tree/master/mywho)| show who is logged on      |
 | [mytouch](https://github.com/AnSwErYWJ/my-serial/tree/master/mytouch) | change file timestamps |
-| [myft](https://github.com/AnSwErYWJ/my-serial/tree/master/myft)|  count file type in the directory.|
+| [myft](https://github.com/AnSwErYWJ/my-serial/tree/master/myft)|  count file type in the directory|
+| [myshell](https://github.com/AnSwErYWJ/my-serial/tree/master/myft)|  count file type in the directory|
 
 ## About me
 [![forthebadge](http://forthebadge.com/images/badges/ages-20-30.svg)](http://forthebadge.com)
