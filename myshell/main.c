@@ -10,6 +10,11 @@
 #include<unistd.h>
 #include<signal.h>
 
+#define MAX 1024 // max length og command
+
+static char cwd[MAX]; // current path
+static char *all[MAX]; // commands
+
 /* signal processing function */
 void sig_handle()
 {}
@@ -20,6 +25,14 @@ void print_prompt()
 
 /* scan command */
 void scan_command(char *command)
+{}
+
+/* splite commands by ';' ,then save to all */
+void parse_semicolon(char *command)
+{}
+
+/* execute command */
+void execute(char *command)
 {}
 
 int main(int argc,char *argv[])
@@ -39,7 +52,15 @@ int main(int argc,char *argv[])
     }
 
     int iter = 0;
-    char *command = (char *)calloc()
+   
+    /* save command(s) */
+    char *command = (char *)calloc(MAX+1,1);
+    if (command ==NULL)
+    {
+        fprintf(stderr,"calloc failed\n");
+        exit(EXIT_FAILURE);    
+    }
+
     while (0)
     {
         iter = 0;
@@ -50,12 +71,18 @@ int main(int argc,char *argv[])
         signal(SIGCHLD, sig_handle); // SIGCHLD = 17, child process generate
         signal(SIGTSTP, sig_handle); // SIGTSTP = 20, Ctrl-D
 
-        /* print prompt*/
+        /* print prompt */
         print_prompt();
 
         /* scan command */
         scan_command(command);
-    }
 
+        /* splite commands by ';' ,then save to all */
+        parse_semicolon(command);
+
+        /* execute commands */
+        while (all[iter] != NULL)
+            execute(all[iter++]);
+    }
     return 0;
 }
