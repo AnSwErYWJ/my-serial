@@ -11,9 +11,15 @@
 #include <signal.h>
 #include <sys/utsname.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
 #include "myshell.h"
 
+static int current_out = 4;
+static int current_in = 5;
 
 /* splite command by ' '*/
 static void *parse(char *command, int times)
@@ -32,7 +38,7 @@ static void cd(char *arg)
 {
     /* default dir "~" */
     if(arg == NULL)
-        arg = "~";
+        fprintf(stderr,"Error: insufficient arguments\n");
     else
     {
         if(chdir(arg) != 0)
@@ -40,6 +46,262 @@ static void cd(char *arg)
             fprintf(stderr,"Error: wrong path for cd \n");
         }
     }
+}
+
+/*
+ * handle proc list
+ * 0: add
+ * 1: remove
+ * 2: print
+ */
+void bg_struct_handle(pid_t pid, char *arg[], int type)
+{
+    proc *iterate, *new;
+    proc *preiter = NULL;
+    
+    int i = 1, a = 0;
+    
+    switch (type)
+    {
+        /* add */
+        case 0:
+            if(start == NULL)
+            {
+                start = (proc *)malloc(sizeof(proc));
+                start -> pid = pid;
+                start -> status = 1;
+                start -> next = NULL;
+                int i = 0;
+                while(arg[i] != NULL)
+                {
+                    start -> arg[i] = malloc(MAX_COMM * sizeof(char));
+                    strcpy(start -> arg[i], arg[i]);
+                    i += 1;
+                }
+                start -> arg[i] = NULL;
+            }
+            else
+            {
+                new = (proc *)malloc(sizeof(proc));
+                new -> pid = pid;
+                new -> status = 1;
+                new -> next = NULL;
+                int i = 0;
+                while(arg[i] != NULL)
+                {
+                    new -> arg[i] = malloc(MAX_COMM * sizeof(char));
+                    strcpy(new -> arg[i], arg[i]);
+                    i += 1;
+                }
+                new -> arg[i] = NULL;
+                iterate = start ;
+                while(iterate -> next != NULL)
+                    iterate = iterate -> next;
+                iterate -> next = new;
+            }
+            break;
+
+        /* remove */
+        case 1:
+            iterate = start;
+            while(iterate != NULL && iterate -> pid != pid )
+            {
+                preiter = iterate;
+                iterate = iterate -> next;
+            }
+            if(iterate == NULL)
+            {
+                fprintf(stderr,"Error:No Such Pid !\n");
+                return ;
+            }
+            else if(iterate -> pid == pid)
+            {
+                if(preiter == NULL)
+                {
+                    start = iterate -> next;
+                    free(iterate);
+                }
+                else
+                {
+                    preiter -> next = iterate -> next;
+                    free(iterate);
+                }
+            }
+            break;
+
+        /* print */
+        case 2:
+            iterate = start;
+            if (iterate == NULL)
+            {
+                printf("No Background jobs\n");
+                return ;
+            }
+            while(iterate != NULL)
+            {
+                a = 0;
+                setbuf(stdout, NULL);
+                printf("[%d] ",i);
+                while(iterate -> arg[a] != NULL)
+                {
+                    printf("%s ", iterate -> arg[a]);
+                    a += 1;
+                }
+                printf("[%d]\n", iterate -> pid);
+                i += 1;
+                iterate = iterate -> next;
+            }
+            break;
+
+        default:
+            fprintf(stderr,"Error: handle proc list!\n");
+    }
+
+    return ;
+}
+
+
+/* handle background process proc */
+void bg_signal_handle()
+{
+    pid_t pid = waitpid(-1, NULL, WNOHANG); // -1 : same sa wait
+
+    proc *iterate = start;
+
+    while(iterate != NULL)
+    {
+        if(iterate->pid == getpid())
+        {
+            bg_struct_handle(pid, NULL, 1); // remove child process(over) info rome proc
+        }
+    }
+}
+
+/*
+ * real execute command
+ * 0:foreground
+ * 1:background
+ */
+static void bf_exec(char *arg[], int type)
+{
+    pid_t pid;
+
+    /* foreground */
+    if(type == 0)
+    {
+        /* fork failed */
+        if((pid = fork()) < 0)
+        {
+            fprintf(stderr,"ERROR: forking child process failed\n");
+            return ;
+        }
+
+        /* child process */
+        else if(pid == 0)
+        {
+            signal(SIGTSTP, SIG_DFL); // SIGTSTP : Ctrl-Z SIG_DFL: stop
+            execvp(arg[0], arg);
+        }
+
+        /* father process */
+        else
+        {
+            signal(SIGTSTP, SIG_DFL);  // SIGTSTP : Ctrl-Z SIG_DFL: stop
+
+            wait(NULL);
+
+            /* reset stdout and stdin */
+            dup2(current_out, 1);
+            dup2(current_in, 0);
+
+            return;
+        }
+    }
+
+    /* background */
+    else
+    {
+        signal(SIGCHLD, bg_signal_handle);
+
+        /* fork failed */
+        if((pid = fork()) < 0)
+        {
+            fprintf(stderr,"ERROR: forking child process failed\n");
+            return ;
+        }
+
+        /* child process */
+        else if(pid == 0)
+            execvp(arg[0], arg);
+
+        /* father process */
+        else
+        {
+            bg_struct_handle(pid, arg, 0);
+
+            /* reset stdout and stdin */
+            dup2(current_out, 1);
+            dup2(current_in, 0);
+
+            return ;
+        }
+    }
+}
+
+/* 
+ * 0 : '>' 
+ * 1 : '>>' 
+ */
+static void file_out(char *arg[], char *out_file, int type)
+{
+    /* copy stdout */
+    current_out = dup(1);
+
+    int f;
+
+    /* > */
+    if(type == 0)
+    {
+        f = open(out_file, O_WRONLY | O_CREAT, 0777);
+        dup2(f, 1); //copy 1 to f
+        close(f);
+        bf_exec(arg, 0);
+    }
+    /* >> */
+    else
+    {
+        f = open(out_file, O_WRONLY | O_CREAT | O_APPEND , 0777);
+        dup2(f, 1); //copy 1 to f
+        close(f);
+        bf_exec(arg, 0);
+    }
+}
+
+/* 
+ * 0 : '<'
+ * 1 : 'xx < xx > xx'
+ * 2 : 'xx < xx >> xx'
+ */
+static void file_in(char *arg[], char *in_file, char *out_file, int type)
+{
+    int in = open(in_file, O_RDONLY);
+
+    /* copy 0 to in */
+    current_in = dup(0);
+    dup2(in, 0);
+    close(in);
+
+    /* '<' */
+    if(type == 0)
+        bf_exec(arg, 0);
+
+    /* `xx < xx > xx` */
+    else if(type == 1)
+        file_out(arg, out_file, 0);
+
+   /* `xx < xx >> xx` */
+    else
+        file_out(arg, out_file, 1);
 }
 
 /*################## end internal call #######################################*/
@@ -118,96 +380,108 @@ void parse_semicolon(char *command)
     }
 }
 
-/* 执行单条命令行语句 */
+/* execute command */
 void execute(char *command)
 {
     char *arg[MAX_COMM];
     char *try;
-    arg[0] = parse(command, 0);        //获得命令名称的字符串指针，如“ls”
     int t = 1;
-    arg[t] = NULL;
 
-    if (strcmp(arg[0], "cd") == 0)     // 处理内嵌命令“cd”的情况
+    /* build-in commands*/
+    arg[0] = parse(command, 0); //get first character of command,such as “ls”
+    arg[t] = NULL;
+    /* command cd */
+    if (strcmp(arg[0], "cd") == 0)
     {
         try = parse(command, 1);
         cd(try);
-        return ;
+        return;
     }
+    /* command exit */
+    if (strcmp(arg[0], "exit") == 0)
+        exit(EXIT_SUCCESS);
 
-    if (strcmp(arg[0], "exit") == 0) // 为了方便用户推出shell
-        exit(0);
-
-    // 循环检测剩下的命令参数，即检测是否：重定向？管道？后台执行？普通命令参数？
+    /* no-build-in command */
     while (1)
     {
+        /* get argument */
         try = parse(command, 1);
+
+        /* no arguments for commands */
         if (try == NULL)
             break;
 
-        else if (strcmp(try, ">") == 0)  // 重定向到一个文件的情况
+        /* second arguments is '>' */
+        else if (strcmp(try, ">") == 0)
         {
-            try = parse(command, 1);   // 得到输出文件名
-            file_out(arg, try, 0);        // 参数 0 代表覆盖的方式重定向
+            try = parse(command, 1); // get argument
+            file_out(arg, try, 0);
             return;
         }
 
-        else if (strcmp(try, ">>") == 0)   // 追加重定向到一个文件
+        /* second arguments is '>>' */
+        else if (strcmp(try, ">>") == 0)
         {
-            try = parse(command, 1);
-            file_out(arg, try, 1);        // 参数 1 代表追加的方式重定向
+            try = parse(command, 1); // get argument
+            file_out(arg, try, 1);
             return;
         }
 
-        else if (strcmp(try, "<") == 0)    // 标准输入重定向
+        /* second arguments is '<' */
+        else if (strcmp(try, "<") == 0)
         {
-            try = parse(command, 1);      // 输入重定向的输入文件
-            char *out_file = parse(command, 1);    // 输出重定向的输出文件
+            try = parse(command, 1); // get argument
+
+            char *out_file = parse(command, 1);  // get argument
+
             if (out_file != NULL)
             {
-                if (strcmp(out_file, ">") == 0)   // 输入输出文件给定
+                /* xx < xx > xx */
+                if (strcmp(out_file, ">") == 0)
                 {
-                    out_file = parse(command, 1);
+                    out_file = parse(command, 1); // get argument
+
                     if (out_file == NULL)
                     {
-                        printf("Syntax error !!\n");
+                        fprintf(stderr,"Syntax error !\n");
                         return;
                     }
                     else
-                        file_in(arg, try, out_file, 1);     // 参数 1 针对双重定向 < >
+                        file_in(arg, try, out_file, 1);
                 }
+                /* xx < xx >> xx */
                 else if (strcmp(out_file, ">>") == 0)
                 {
-                    out_file = parse(command, 1);
+                    out_file = parse(command, 1); // get argument
+
                     if (out_file == NULL)
                     {
-                        printf("Syntax error !!\n");
+                        fprintf(stderr,"Syntax error !\n");
                         return;
                     }
                     else
-                        file_in(arg, try, out_file, 2);       // 参数 2 针对双重定向 < >>
+                        file_in(arg, try, out_file, 2);
                 }
             }
             else
             {
-                file_in(arg, try, NULL, 0);        // 模式 0 针对单一的输入重定向
+                file_in(arg, try, NULL, 0);
             }
         }
 
-        //处理后台进程
-        else if (strcmp(try, "&") == 0)   // 后台进程
+        /* '&' background */
+        else if (strcmp(try, "&") == 0)
         {
-            bf_exec(arg, 1);     // bf_exec 的第二个参数为 1 代表后台进程
+            bf_exec(arg, 1);
             return;
         }
 
-        else       //try是一个命令参数
+        else
         {
             arg[t] = try;
-            t += 1;
-            arg[t] = NULL;
+            arg[++t] = NULL;
         }
     }
 
-    bf_exec(arg, 0);     // 参数 0 表示前台运行
-    return;
+    bf_exec(arg, 0); 
 }

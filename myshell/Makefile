@@ -39,13 +39,10 @@ $(TARGET): $(OBJS)
 
 #######################
 # 伪目标同样也可成为依赖
-clean: cleantar cleanobj cleangen
+cleanall: clean cleanbin
 
-cleantar:
+cleanbin:
 	$(RM) $(TARGET)
 
-cleanobj:
-	$(RM) $(OBJS)
-
-cleangen:
-	$(RM) $(rely)
+clean:
+	$(RM) $(OBJS) $(rely)

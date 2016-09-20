@@ -8,11 +8,11 @@
 #ifndef _MYSHELL_H
 #define _MYSHELL_H
 
-#define MAX 1024 // max number of commands
-#define MAX_COMM 100 // max length of command
+#define MAX 1024 // max length of total commands once
+#define MAX_COMM 100 // max length of one command
 
-char cwd[MAX]; // current path
 char *all[MAX]; // commands
+char cwd[MAX]; // current path
 
 /* background processes*/
 typedef struct proc{
@@ -28,5 +28,6 @@ void print_prompt(); /* print prompt */
 void sig_handle(int sig); /* signal processing function */
 void scan_command(char *command); /* scan command */
 void parse_semicolon(char *command); /* splite commands by ';' ,then save to all */
+void execute(char *command); /* execute command */
 
 #endif

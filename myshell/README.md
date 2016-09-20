@@ -3,7 +3,7 @@
 [![stable](http://badges.github.io/stability-badges/dist/stable.svg)](http://github.com/badges/stability-badges)
 
 ## Introduction
-Count file type in the directory.
+Simulate Linux Shell.
 
 ## Compile and Run
 ```
@@ -12,15 +12,16 @@ $ make clean
 ```
 
 ```
-$ ./myft <pathname>
+$ ./myshell 
 ```
+> Tips : build-in commands only support `cd` `exit`.
 
 ## Environment
 + Linux Bash Shell
 + POSIX C
 
 ## Reference
-- https://www.shiyanlou.com/courses/582/labs/1928/document
+- https://www.shiyanlou.com/courses/591/labs/1961/document
 
 ## About me
 [![forthebadge](http://forthebadge.com/images/badges/ages-20-30.svg)](http://forthebadge.com)

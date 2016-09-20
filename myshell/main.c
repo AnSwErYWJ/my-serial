@@ -7,23 +7,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <signal.h>
-#include <sys/utsname.h>
+#include <unistd.h>
 
 #include "myshell.h"
-
-int current_out = 4;
-int current_in = 5;
-int fd[4];
-
-
-
-/* execute command */
-static void execute(char *command)
-{
-        
-}
 
 int main(int argc,char *argv[])
 {
@@ -51,7 +38,7 @@ int main(int argc,char *argv[])
         exit(EXIT_FAILURE);    
     }
 
-    //while (1)
+    while (1)
     {
         iter = 0;
 
