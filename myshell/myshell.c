@@ -18,8 +18,21 @@
 
 #include "myshell.h"
 
+#define MAX_COMM 100 // max length of one command
+
 static int current_out = 4;
 static int current_in = 5;
+
+static char cwd[MAX]; // current path
+
+/* background processes*/
+typedef struct proc{
+    pid_t pid;
+    int status;
+    char *arg[MAX_COMM];
+    struct proc *next;
+}proc;
+static proc *start;
 
 /* splite command by ' '*/
 static void *parse(char *command, int times)
@@ -316,7 +329,8 @@ void print_prompt()
 
     /* get current path name */
     getcwd(cwd,sizeof(cwd));
-    setbuf(stdout,NULL); // set buffer false
+
+    setbuf(stdout,NULL);
 
     /* name in network,system name */
     printf("<%s@%s:%s>",uname_ptr.nodename,uname_ptr.sysname,cwd);
@@ -334,7 +348,7 @@ void sig_handle(int sig)
     /* SIGQUIT = 3 */
     else if (sig == 3)
     {
-        printf("\nType quit to exit\n");
+        printf("\nType exit to quit\n");
         print_prompt(); //print prompt
     }
 
@@ -390,6 +404,7 @@ void execute(char *command)
     /* build-in commands*/
     arg[0] = parse(command, 0); //get first character of command,such as “ls”
     arg[t] = NULL;
+
     /* command cd */
     if (strcmp(arg[0], "cd") == 0)
     {
@@ -397,8 +412,8 @@ void execute(char *command)
         cd(try);
         return;
     }
-    /* command exit */
-    if (strcmp(arg[0], "exit") == 0)
+    /* command quit */
+    if (strcmp(arg[0], "quit") == 0)
         exit(EXIT_SUCCESS);
 
     /* no-build-in command */

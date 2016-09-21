@@ -14,7 +14,7 @@ $ make clean
 ```
 $ ./myshell 
 ```
-> Tips : build-in commands only support `cd` `exit`.
+> Tips : build-in commands only support `cd` `quit`.
 
 ## Environment
 + Linux Bash Shell

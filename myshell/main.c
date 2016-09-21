@@ -42,6 +42,7 @@ int main(int argc,char *argv[])
     {
         iter = 0;
 
+
         /* capture signal */
         signal(SIGINT, sig_handle); // SIGINT = 2, Ctrl-C
         signal(SIGQUIT, sig_handle); /* SIGQUIT = 3, Ctrl-\ */
@@ -51,7 +52,7 @@ int main(int argc,char *argv[])
         /* print prompt */
         print_prompt();
 
-        /* scan command */
+        /* scan command ,save to command */
         scan_command(command);
 
         /* splite commands by ';' ,then save to all */

@@ -20,7 +20,7 @@ rely := $(SRC:.c=.d) # 生成.d文件
 # $@ : 所有目标集合
 # D/F :目录/文件 ,如$(<D)
 ####################
-.PHONY: all cleantar clean cleanobj cleangen
+.PHONY: all clean
 
 all: $(TARGET)
 
@@ -39,10 +39,5 @@ $(TARGET): $(OBJS)
 
 #######################
 # 伪目标同样也可成为依赖
-cleanall: clean cleanbin
-
-cleanbin:
-	$(RM) $(TARGET)
-
 clean:
-	$(RM) $(OBJS) $(rely)
+	$(RM) $(OBJS) $(rely) $(TARGET)

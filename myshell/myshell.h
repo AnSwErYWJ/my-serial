@@ -9,20 +9,8 @@
 #define _MYSHELL_H
 
 #define MAX 1024 // max length of total commands once
-#define MAX_COMM 100 // max length of one command
 
 char *all[MAX]; // commands
-char cwd[MAX]; // current path
-
-/* background processes*/
-typedef struct proc{
-    pid_t pid;
-    int status;
-    char *arg[MAX_COMM];
-    struct proc *next;
-}proc;
-proc *start;
-
 
 void print_prompt(); /* print prompt */
 void sig_handle(int sig); /* signal processing function */
